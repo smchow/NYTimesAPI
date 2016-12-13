@@ -9,10 +9,16 @@
   background-color: #324758;
   color: white;
   font-size: 12px;
-  height: 40px;
+  //height: 40px;
   padding: 3px;
 }
 
 button {
   background: grey;
+}
+
+img {
+  width: 200px;
+  height: auto;
+  padding: 6px;
 }
