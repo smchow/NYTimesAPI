@@ -102,20 +102,22 @@
  <script src="https://code.jquery.com/jquery.js"></script>
  <script type="text/javascript">
   $("#rContainer").hide();
+
 	$("#frmSubmit").on("click", function() {
 
 		var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 		var base_url = "http://www.nytimes.com/";
-		url += '?' + $.param({
+    var q = ($("#exampleInputEmail1").val()).trim();
+		url += '?api-key=05dd5e0a5d1841718337d9de569ceb6c&q='+q;/*'?' + $.param({
   		'api-key': "05dd5e0a5d1841718337d9de569ceb6c",
-  		'q': "golden globe",
+  		'q':  "golden globe",
 		  'begin_date': "20120101",
 		  'end_date': "20161231",
 		  'hl': "true",
 		  'facet_field': "source",
 		  'facet_filter': "true"
-			});
-
+			});*/
+      console.log(url);
 
 			$.ajax({
   					url: url,
