@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include "index.php";?>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+
+<body>
+
+
+
+	<button id="test">Test</button>
+	<div id="display"></div>
+
+ <script src="https://code.jquery.com/jquery.js"></script>
+ <script type="text/javascript">
+
+	$("button").on("click", function() {
+
+		var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+			url += '?' + $.param({
+  			'api-key': "05dd5e0a5d1841718337d9de569ceb6c",
+  				'q': "Golden Globes"
+			});
+			$.ajax({
+  					url: url,
+  					method: 'GET',9
+				})										
+		.done(function(database) {
+			// response.addHeader("Access-Control-Allow-Origin", "http://www.nytimes.com");
+        	console.log(database);
+
+        	var results = database.response.docs;
+
+        	for (var i = 0; i < results[i].length; i++) {
+            var newsDiv = $("<div class='item'>");
+
+            var docImage = results[i].multimedia[0].url;
+
+            var img = $("<img>");
+
+            img.attr("src" , docImage);
+
+           	newsDiv.prepend(img);
+
+           $("#display").prepend(newsDiv);
+     		
+     		}
+     	});
+      });
+
+</script>
+
+</body>
+</html>
