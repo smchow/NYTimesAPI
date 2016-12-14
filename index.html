@@ -37,19 +37,19 @@
         <form>
         <div class="form-group">
           <label for="exampleInputEmail1">Search Term</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Keyword">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Number of Records to Retrieve:</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input type="text" class="form-control" id="numRecords" placeholder="10">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Start Year(Optional):</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input type="number" class="form-control" id="startDate" placeholder="YYYYMMDD">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">End Year(Optional):</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input type="number" class="form-control" id="endDate" placeholder="YYYYMMDD">
         </div>
         </form>
         <button type="submit" class="btn btn-default" id="frmSubmit">
@@ -108,7 +108,19 @@
 		var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 		var base_url = "http://www.nytimes.com/";
     var q = ($("#exampleInputEmail1").val()).trim();
-		url += '?api-key=05dd5e0a5d1841718337d9de569ceb6c&q='+q;/*'?' + $.param({
+    var begin_date = ($("#startDate").val()).trim();
+    var end_date = ($("#endDate").val()).trim();
+
+		url += '?api-key=05dd5e0a5d1841718337d9de569ceb6c&q='+q;
+    if(begin_date != ""){
+      url += '&begin_date='+ begin_date;
+    }
+    if(end_date != ""){
+      url += '&begin_date='+ end_date;
+    }
+    console.log(url);
+
+    /*'?' + $.param({
   		'api-key': "05dd5e0a5d1841718337d9de569ceb6c",
   		'q':  "golden globe",
 		  'begin_date': "20120101",
@@ -134,11 +146,16 @@
         	for (var i = 0; i < results.length; i++) {
             var newsDiv = $("<div class='item'>");
 
-            var docImage = base_url + results[i].multimedia[0].url;
-
             var img = $("<img>");
+            
+            if (results[i].multimedia[0].url != "" ){
+              var docImage = base_url + results[i].multimedia[0].url;
+              img.attr("src" , docImage);
+              console.log(results[i].multimedia[0].url);
+           }
+            
 
-            img.attr("src" , docImage);
+            
             var text = results[i].headline.main;
             //text += results[i].lead_paragraph;
             //text += results[i].web_url;
