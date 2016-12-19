@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include "index.php";?>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+
+<body>
+
+
+
+	<button id="test">Test</button>
+	<div id="display"></div>
+
+ <script src="https://code.jquery.com/jquery.js"></script>
+ <script type="text/javascript">
+
+	$("button").on("click", function() {
+
+		var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+		var base_url = "http://www.nytimes.com/";
+
+		url += '?' + $.param({
+		  'api-key': "05dd5e0a5d1841718337d9de569ceb6c",
+		  'q': "obama",
+		  'begin_date': "20120101",
+		  'end_date': "20161231",
+		  'hl': "true",
+		  'facet_field': "source",
+		  'facet_filter': "true"
+		});
+
+		console.log(url)
+
+		$.ajax({
+
+		    url: url,
+		    method: 'GET'
+
+		})
+		.done(function(database) {
+			// response.addHeader("Access-Control-Allow-Origin", "http://www.nytimes.com");
+        	console.log(database);
+
+        	var results = database.response.docs;
+        	console.log(results.length);
+
+        for (var i = 0; i < results.length; i++) {
+            var newsDiv = $("<div class='item'>");
+
+            var img = $("<img>");
+         
+            // Why is this needed?
+            if (results[i].multimedia[0].url != "") {
+            var docImage = base_url + results[i].multimedia[0].url;
+
+            img.attr("src" , docImage);
+            console.log(results[i].multimedia[0].url)
+            }
+
+            var headText = results[i].headline.main;
+            headText += results[i].lead_paragraph;
+
+            // var html = results[i].web_url;
+
+            // var link = '<a href="link">' + link + '</a>';
+
+            // newsDiv.append(link);
+            
+            newsDiv.prepend("Heading: " + headText + "<br>");
+           	newsDiv.append(img);
+           	
+
+           $("#display").prepend(newsDiv);
+     		
+     		}
+     	});
+      });
+
+</script>
+
+</body>
+</html>

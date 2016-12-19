@@ -1,24 +1,51 @@
 .jumbotron{
   background-color: #233A60;
   color: white;
-  font-size: 28px;
-  text-align: center
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  margin-left: none;
+  margin-right: none;
+
+}
+
+div.container{
+  width: 100%;
+  font-family: arial, helvetica, sans-serif;
 }
 
 #searchpar {
   background-color: #324758;
   color: white;
-  font-size: 12px;
-  //height: 40px;
-  padding: 3px;
+  size: 18px;
+  font-weight: bold
 }
 
+
 button {
-  background: grey;
+  background: #9FAEAF;
+  color: white;
+}
+
+.btn {
+  font-size: 12px;
+}
+
+.form-group {
+color: #324758;
+font-weight: 200;
+font-size: 12px;
+}
+
+.form-control:focus {
+  border-color: #324758;
+  box-shadow: none;
+  border-width: 2px;
 }
 
 img {
   width: 200px;
   height: auto;
-  padding: 6px;
 }
+
+ 
