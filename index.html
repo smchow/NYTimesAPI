@@ -15,8 +15,6 @@
 
 <body>
 
-
-
   
   
   <script src="https://use.fontawesome.com/7b6dd2ca46.js"></script>
@@ -35,23 +33,30 @@
           Search Parameters
         </div>
         <div class="panel-body">
-        <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Search Term:</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Keyword">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Number of Records to Retrieve:</label>
-          <input type="text" class="form-control" id="numRecords" placeholder="5">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Start Year (Optional):</label>
-          <input type="number" class="form-control" id="startDate" >
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">End Year (Optional):</label>
-          <input type="number" class="form-control" id="endDate" >
-        </div>
+        <form id="formId">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Search Term:</label>
+            <input type="name" class="form-control" id="exampleInputEmail1" placeholder="Keyword">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Number of Records to Retrieve:</label>
+            <!-- <input type="text" class="form-control" id="numRecords" placeholder="5"> -->
+            <select class="form-control" id="numRecords">
+                  
+                  <option>5</option>
+                  <option>10</option>
+                  <option>15</option>
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Start Year (Optional):</label>
+            <input type="number" class="form-control" id="startDate" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">End Year (Optional):</label>
+            <input type="number" class="form-control" id="endDate" >
+          </div>
         </form>
         <button type="submit" class="btn" id="frmSubmit" id="test">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -73,22 +78,21 @@
         <div class="panel-heading" id="searchpar">
           <h3>Search Results</h3>
         </div>
-        <div class="panel-body" id="display">
-        <table class="table">
-          <thead class="thead-inverse">
-            <tr>
-            <th>Image</th>
-            <th>Heading</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          <div id="display">
-<!--          all the <th> contents that are generated below go in here-->          </div>
-        </tr>
-        </tbody>
-      </table>
+        <div class="panel-body">
+            <table class="table">
+              <thead class="thead-inverse">
+                <tr>
+                <th>Image</th>
+                <th>Heading</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody id="display">
+            
+    <!--          all the <th> contents that are generated below go in here--> 
+              
+            </tbody>
+          </table>
         </div>
       </div>
   
@@ -109,17 +113,21 @@
 <script src="https://code.jquery.com/jquery.js"></script>
  <script type="text/javascript">
 
-  $("button").on("click", function() {
+  $("#frmSubmit").on("click", function(event) {
 
-    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    event.preventDefault();
+
+    var queryUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
     var base_url = "http://www.nytimes.com/";
     var q = ($("#exampleInputEmail1").val()).trim();
     var begin_date = ($("#startDate").val()).trim();
     var end_date = ($("#endDate").val()).trim();
+    var page = ($("#numRecords").val()).trim();
     
-    url += '?' + $.param({
+    queryUrl += '?' + $.param({
       'api-key': "05dd5e0a5d1841718337d9de569ceb6c",
       'q':  q,
+      // 'page': page,
       'hl': "true",
       'facet_field': "source",
       'facet_filter': "true"
@@ -127,16 +135,21 @@
 
     // Add date only if the user inputs the date
     if(begin_date != ""){
-      url += '&begin_date='+ begin_date + '0101';
+      queryUrl += '&begin_date='+ begin_date + '0101';
     }
     if(end_date != ""){
-      url += '&end_date='+ end_date + '0101';
+      queryUrl += '&end_date='+ end_date + '1231';
     }
-    console.log(url); 
+    // if(page != ""){
+    //   queryUrl += '&page=' + page;
+    // }
+    console.log(queryUrl); 
+
+    var newsDiv;
 
     $.ajax({
 
-        url: url,
+        url: queryUrl,
         method: 'GET'
 
     })
@@ -146,35 +159,45 @@
 
           var results = database.response.docs;
           console.log(results.length);
+          $("#display").empty();
+          console.log(page);
+          numResults = page;
+          if(page > results.length){
+              numResults = results.length
+          }
 
-        for (var i = 0; i < results.length; i++) {
-            var newsDiv = $("<div class='item'>");
+        for (var i = 0; i < numResults; i++) {
+            newsDiv = $("<tr class='item'>");
 
             var img = $("<img>");
-            var link = $("<a>");
             
             // Check if an image url is being returned in the response
             // if not put in a place holder
             if (results[i].multimedia.length > 0) {
+
               var docImage = base_url + results[i].multimedia[0].url;
+
               img.attr("src" , docImage);
               console.log(results[i].multimedia[0].url)
-            }else{
+            }
+            else{
               img.attr("src" , "assets/images/placeholder.jpg");
             }
 
-            
-
-            var headText = results[i].headline.main;
-            headText += results[i].lead_paragraph;
+            var p = $("<p id='text'>");
+            var headText = p;
+            headText = results[i].headline.main;
+            headText += ("<br>" + "-" + results[i].lead_paragraph);
 
             var html = results[i].web_url;
-            console.log(html)
-            link.attr("href", html)
+            console.log(html);
+            var link = $("<a id='link'>").attr("href", html).html("LINK TO FULL ARTICLE");
+
             newsDiv.append(img);
-            newsDiv.append("<th>" +"Heading: " + headText + "</th>" + "<br>");
-            newsDiv.append("<th>" +"Link: " + link + "</th>" + "<br>");
-           $("#display").append(newsDiv);
+            newsDiv.append("<td class='col-md-7'>" + headText + "</td>");
+            newsDiv.append(link);
+
+           $(".table tbody").append(newsDiv);
         
         }
 
@@ -182,9 +205,10 @@
       });
 
 
-  $("#clr").on("click", function() {
-       $("#display").empty();
-        $("#rContainer").hide();
+  $("#clr").on("click", function(event) {
+        event.preventDefault();
+       $("#formId")[0].reset();
+        $("#display").empty();
   });
 
 </script>
