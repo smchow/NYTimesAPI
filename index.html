@@ -92,10 +92,10 @@
             <table class="table">
               <thead class="thead-inverse">
                 <tr>
-                <th>Date</th>
-                <th>Image</th>
-                <th>Heading</th>
-                <th>Link</th>
+                <th class='col-md-1'>Date</th>
+                <th class='col-md-2'>Image</th>
+                <th class='col-md-6'>Heading</th>
+                <th class='col-md-1'>Link</th>
               </tr>
             </thead>
             <tbody id="display">
@@ -220,7 +220,8 @@
             else{
               img.attr("src" , "assets/images/placeholder.jpg");
             }
-
+            img.addClass("img-responsive");
+            //  img.addClass("col-md-3");
             var fromLeft = 10;
             var date = results[i].pub_date;
             date = date.substring(fromLeft , date);
@@ -235,7 +236,7 @@
             var link = $("<a id='link'>").attr("href", html).html("READ THE FULL ARTICLE");
             newsDiv.append("<td>" + date + "</td>");
             newsDiv.append(img);
-            newsDiv.append("<td class='col-md-6'>" + headText + "</td>");
+            newsDiv.append("<td>" + headText + "</td>");
             newsDiv.append(link);
 
            $(".table tbody").prepend(newsDiv);
