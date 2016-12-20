@@ -112,24 +112,18 @@
 
   
   <!-- Displaying the results -->
-
-
-
-  
-   
-    
- 
-
-
 <script src="https://code.jquery.com/jquery.js"></script>
  <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script type="text/javascript">
-  $("#startDateAlert").hide();
+  
   $("#frmSubmit").on("click", function(event) {
 
     event.preventDefault();
-
+    $("#startDateAlert").hide();
+    $("#endDateAlert").hide();
+    $("#keywordAlert").hide();
+    
     var queryUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
     var q = ($("#exampleInputEmail1").val()).trim();
     var begin_date = ($("#startDate").val()).trim();
@@ -137,10 +131,10 @@
     var page = ($("#numRecords").val()).trim();
 
      if (q!=""){
-      $("#keywordAlert").hide();
+          $("#keywordAlert").hide();
       }else{
-        $("#keywordAlert").show();
-        return;
+          $("#keywordAlert").show();
+          return;
       }
     
     queryUrl += '?' + $.param({
@@ -159,7 +153,7 @@
     if(begin_date != ""){
       if(parseInt(begin_date) >= 1850 && parseInt(begin_date) < 2017){
         queryUrl += '&begin_date='+ begin_date + '0101';
-        $("#startDateAlert").hide();
+       
       }else{
         $("#startDateAlert").show();
         return;
@@ -169,7 +163,7 @@
     if(end_date != ""){
     if(parseInt(end_date) >= 1850 && parseInt(end_date) < 2017){
       queryUrl += '&end_date='+ end_date + '1231';
-      $("#endDateAlert").hide();
+      
       }else{
         $("#endDateAlert").show();
         return;
