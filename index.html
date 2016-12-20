@@ -235,9 +235,14 @@
             console.log(html);
             var link = $("<a id='link'>").attr("href", html).html("READ THE FULL ARTICLE");
             newsDiv.append("<td>" + date + "</td>");
-            newsDiv.append(img);
+            var im = $("<td>");
+            im.html(img);
+            newsDiv.append(im);
+            //newsDiv.append(img);
             newsDiv.append("<td>" + headText + "</td>");
-            newsDiv.append(link);
+            var lnk = $("<td>");
+            lnk.html(link);
+            newsDiv.append(lnk);
 
            $(".table tbody").prepend(newsDiv);
         
