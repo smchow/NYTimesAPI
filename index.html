@@ -74,7 +74,7 @@
         </button>
         <button type="submit" class="btn" id="clr">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-        Clear Results</button><span id="dispErr"  > Errors</span>
+        Clear Results</button>
 
       
         </div>
@@ -131,7 +131,6 @@
     event.preventDefault();
 
     var queryUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    var base_url = "http://www.nytimes.com/";
     var q = ($("#exampleInputEmail1").val()).trim();
     var begin_date = ($("#startDate").val()).trim();
     var end_date = ($("#endDate").val()).trim();
@@ -178,8 +177,16 @@
     // if(page != ""){
     //   queryUrl += '&page=' + page;
     // }
-    console.log(queryUrl); 
+       dispAjaxData(queryUrl, page);
+      
+      });
 
+  /*
+    Run the ajax query and display the results in the search panel
+  */
+  function dispAjaxData(queryUrl, page){
+    var base_url = "http://www.nytimes.com/";
+    console.log(queryUrl); 
     var newsDiv;
 
     $.ajax({
@@ -241,7 +248,7 @@
         }
 
         });
-      });
+  }
 
 
   $("#clr").on("click", function(event) {
