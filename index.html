@@ -37,14 +37,14 @@
         <div class="panel-body">
         <form id="formId">
           <div class="form-group">
-            <label for="exampleInputEmail1">Search Term:</label>
-            <input type="name" class="form-control" id="exampleInputEmail1" placeholder="Keyword">
+            <label for="Keyword">Search Term:</label>
+            <input type="name" class="form-control" id="keyword" placeholder="Keyword">
             <div id="keywordAlert" class="alert alert-danger fade in">
               <strong>Warning!</strong> The keyword cannot be blank!
             </div>
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Number of Records to Retrieve:</label>
+            <label for="numRecords">Number of Records to Retrieve:</label>
             <!-- <input type="text" class="form-control" id="numRecords" placeholder="5"> -->
             <select class="form-control" id="numRecords">         
                   <option>5</option>
@@ -52,7 +52,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Start Year (Optional):</label>
+            <label for="startDate">Start Year (Optional):</label>
             <input type="number" class="form-control" id="startDate"  min="1850" max="2017">
            
           <div id="startDateAlert" class="alert alert-danger fade in">
@@ -61,7 +61,7 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputPassword1">End Year (Optional):</label>
+            <label for="endDate">End Year (Optional):</label>
             <input type="number" class="form-control" id="endDate" min="1850" max="2017">
             <div id="endDateAlert" class="alert alert-danger fade in">
               <strong>Warning!</strong> Date needs to be between 1850 and the current year!
@@ -125,7 +125,7 @@
     $("#keywordAlert").hide();
 
     var queryUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    var q = ($("#exampleInputEmail1").val()).trim();
+    var q = ($("#keyword").val()).trim();
     var begin_date = ($("#startDate").val()).trim();
     var end_date = ($("#endDate").val()).trim();
     var page = ($("#numRecords").val()).trim();
@@ -142,7 +142,7 @@
       'q':  q,
       // 'page': page,
       'hl': "true",
-      'sort': "newest",
+      //'sort': "newest",
       'facet_field': "source",
       'facet_filter': "true"
     });
@@ -151,27 +151,23 @@
 
     // Add date only if the user inputs the date
     if(begin_date != ""){
-      if(parseInt(begin_date) >= 1850 && parseInt(begin_date) < 2017){
-        queryUrl += '&begin_date='+ begin_date + '0101';
-       
-      }else{
-        $("#startDateAlert").show();
-        return;
-      }
+        if(parseInt(begin_date) >= 1850 && parseInt(begin_date) < 2017){
+            queryUrl += '&begin_date='+ begin_date + '0101';        
+        }else{
+              $("#startDateAlert").show();
+              return;
+        }
       
     }
     if(end_date != ""){
-    if(parseInt(end_date) >= 1850 && parseInt(end_date) < 2017){
-      queryUrl += '&end_date='+ end_date + '1231';
-      
-      }else{
-        $("#endDateAlert").show();
-        return;
-      }
+      if(parseInt(end_date) >= 1850 && parseInt(end_date) < 2017){
+          queryUrl += '&end_date='+ end_date + '1231';
+        
+        }else{
+            $("#endDateAlert").show();
+            return;
+        }
     }
-    // if(page != ""){
-    //   queryUrl += '&page=' + page;
-    // }
        dispAjaxData(queryUrl, page);
       
       });
