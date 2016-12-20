@@ -7,6 +7,7 @@
   <meta charset="utf-8">
   <title></title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+
    <title>New York Times Search</title>
 
  <!--  <link rel="stylesheet" href="../assets/css/font-awesome.min.css"> -->
@@ -18,6 +19,7 @@
   
   
   <script src="https://use.fontawesome.com/7b6dd2ca46.js"></script>
+ 
 <div class="container">
     <div class="jumbotron">
 <!-- here is the link given to me by glyphSearch for the newspaper icon. I don't know how to make it work -->
@@ -37,6 +39,9 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Search Term:</label>
             <input type="name" class="form-control" id="exampleInputEmail1" placeholder="Keyword">
+            <div id="keywordAlert" class="alert alert-danger fade in">
+              <strong>Warning!</strong> The keyword cannot be blank!
+            </div>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Number of Records to Retrieve:</label>
@@ -48,11 +53,19 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Start Year (Optional):</label>
-            <input type="number" class="form-control" id="startDate" >
+            <input type="number" class="form-control" id="startDate"  min="1850" max="2017">
+           
+          <div id="startDateAlert" class="alert alert-danger fade in">
+          <strong>Warning!</strong> Date needs to be between 1850 and the current year!
           </div>
+          </div>
+
           <div class="form-group">
             <label for="exampleInputPassword1">End Year (Optional):</label>
-            <input type="number" class="form-control" id="endDate" >
+            <input type="number" class="form-control" id="endDate" min="1850" max="2017">
+            <div id="endDateAlert" class="alert alert-danger fade in">
+              <strong>Warning!</strong> Date needs to be between 1850 and the current year!
+            </div>
           </div>
         </form>
         <button type="submit" class="btn" id="frmSubmit" id="test">
@@ -61,7 +74,7 @@
         </button>
         <button type="submit" class="btn" id="clr">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-        Clear Results</button>
+        Clear Results</button><span id="dispErr"  > Errors</span>
 
       
         </div>
@@ -79,6 +92,7 @@
             <table class="table">
               <thead class="thead-inverse">
                 <tr>
+                <th>Date</th>
                 <th>Image</th>
                 <th>Heading</th>
                 <th>Link</th>
@@ -108,8 +122,10 @@
 
 
 <script src="https://code.jquery.com/jquery.js"></script>
+ <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script type="text/javascript">
-
+  $("#startDateAlert").hide();
   $("#frmSubmit").on("click", function(event) {
 
     event.preventDefault();
@@ -120,6 +136,13 @@
     var begin_date = ($("#startDate").val()).trim();
     var end_date = ($("#endDate").val()).trim();
     var page = ($("#numRecords").val()).trim();
+
+     if (q!=""){
+      $("#keywordAlert").hide();
+      }else{
+        $("#keywordAlert").show();
+        return;
+      }
     
     queryUrl += '?' + $.param({
       'api-key': "05dd5e0a5d1841718337d9de569ceb6c",
@@ -129,13 +152,28 @@
       'facet_field': "source",
       'facet_filter': "true"
     });
+     
+    
 
     // Add date only if the user inputs the date
     if(begin_date != ""){
-      queryUrl += '&begin_date='+ begin_date + '0101';
+      if(parseInt(begin_date) >= 1850 && parseInt(begin_date) < 2017){
+        queryUrl += '&begin_date='+ begin_date + '0101';
+        $("#startDateAlert").hide();
+      }else{
+        $("#startDateAlert").show();
+        return;
+      }
+      
     }
     if(end_date != ""){
+    if(parseInt(end_date) >= 1850 && parseInt(end_date) < 2017){
       queryUrl += '&end_date='+ end_date + '1231';
+      $("#endDateAlert").hide();
+      }else{
+        $("#endDateAlert").show();
+        return;
+      }
     }
     // if(page != ""){
     //   queryUrl += '&page=' + page;
@@ -181,6 +219,10 @@
               img.attr("src" , "assets/images/placeholder.jpg");
             }
 
+            var fromLeft = 10;
+            var date = results[i].pub_date;
+            date = date.substring(fromLeft , date);
+            console.log(date);
             var p = $("<p id='text'>");
             var headText = p;
             headText = results[i].headline.main;
@@ -188,13 +230,13 @@
 
             var html = results[i].web_url;
             console.log(html);
-            var link = $("<a id='link'>").attr("href", html).html("LINK TO FULL ARTICLE");
-
+            var link = $("<a id='link'>").attr("href", html).html("READ THE FULL ARTICLE");
+            newsDiv.append("<td>" + date + "</td>");
             newsDiv.append(img);
-            newsDiv.append("<td class='col-md-7'>" + headText + "</td>");
+            newsDiv.append("<td class='col-md-6'>" + headText + "</td>");
             newsDiv.append(link);
 
-           $(".table tbody").append(newsDiv);
+           $(".table tbody").prepend(newsDiv);
         
         }
 
@@ -207,6 +249,8 @@
        $("#formId")[0].reset();
         $("#display").empty();
   });
+
+ 
 
 </script>
 
