@@ -22,7 +22,7 @@
 
 	* Use hard-coded values whenever you can first. Then switch into "dynamic" URL construction.- **Arron**
 
-*Front-End Team (next steps):
+* Front-End Team (next steps):
 
     * Begin creating basic click events. Register the submit button- **Anna, Arron, Sunita**
 
