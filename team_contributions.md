@@ -23,6 +23,7 @@
 	* Use hard-coded values whenever you can first. Then switch into "dynamic" URL construction.- **Arron**
 
 *Front-End Team (next steps):
+
     * Begin creating basic click events. Register the submit button- **Anna, Arron, Sunita**
 
     * Create working transfers of data between the text-boxes and the code connecting to the api.- **Sunita**
@@ -30,6 +31,7 @@
     * Experiment with creating content regions for where the article will go.- **Anna, Sunita**
 
 * API Team (next steps):
+
     * Create the AJAX call needed to retrieve data then console.log all of the relevant fields.- **Arron**
 
     * Incorporate various "optional parameters" (hard code these in initially).- **Arron**
