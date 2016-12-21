@@ -1,24 +1,18 @@
 * Front-End Team initial tasks:
 
-    * Create the layout for the design below. 
-    - Anna, Sunita
+    * Create the layout for the design below. - **Anna, Sunita**
 
-    * Create customized css along with Bootstrap.
-    - Anna
+    * Create customized css to use along with Bootstrap.- **Anna**
 
-    * Make sure to organize your code so as to have the necessary IDs.
-	- Anna, Sunita
+    * Make sure to organize your code so as to have the necessary IDs.- **Anna, Sunita**
 
-    * Incorporate text boxes for capturing User Input. 
-    - Anna
+    * Incorporate text boxes for capturing User Input. - **Anna, Sunita**
 
-    * Then research how to retrieve the input values using jQuery
-    - Anna, Sunita
+    * Then research how to retrieve the input values using jQuery - **Anna, Sunita**
 
 * API Team initial tasks:
 
-    * Do preliminary research on the [API](http://developer.nytimes.com/article_search_v2.json).
-    - Arron
+    * Do preliminary research on the [API](http://developer.nytimes.com/article_search_v2.json).- **Arron**
 
     * Register for an API Key.
     - Arron
