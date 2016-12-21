@@ -16,13 +16,13 @@
 
     * Register for an API Key.- **Arron**
 
-    * Understand what format the URL should look like to make an Article Call. (Hint: Use the API Console!!) - **Arron, Sunita**
+    * Understand what format the URL should look like to make an Article Call. - **Arron, Sunita**
 
     * Experiment with console logging various fields. - **Arron, Sunita**
 
 	* Use hard-coded values whenever you can first. Then switch into "dynamic" URL construction.- **Arron**
 
-Front-End Team (next steps):
+*Front-End Team (next steps):
     * Begin creating basic click events. Register the submit button- **Anna, Arron, Sunita**
 
     * Create working transfers of data between the text-boxes and the code connecting to the api.- **Sunita**
